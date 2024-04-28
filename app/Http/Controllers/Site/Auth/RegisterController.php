@@ -34,7 +34,7 @@ class RegisterController extends Controller
                 ->with('success', __('auth.registered'));
         }
 
-        return redirect()->back()->with('error', __('auth.register_failed'));
+        return redirect()->route('site.auth.register')->with('error', __('auth.register_failed'));
     }
 
 }

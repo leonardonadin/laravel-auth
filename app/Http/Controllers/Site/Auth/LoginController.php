@@ -32,7 +32,7 @@ class LoginController extends Controller
         if (UserService::login($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('site.home')->with('success', __('auth.success'));
+            return redirect()->intended(route('site.home'))->with('success', __('auth.success'));
         }
 
         if (!UserService::checkEmailIsVerified($credentials['email'])) {
@@ -40,7 +40,7 @@ class LoginController extends Controller
                 ->with('message', __('auth.verify_email'));
         }
 
-        return redirect()->back()->with('error', __('auth.failed'));
+        return redirect()->route('site.auth.login')->with('error', __('auth.failed'));
     }
 
     /**
