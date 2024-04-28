@@ -6,27 +6,27 @@ use App\Models\User;
 
 class UserRepository
 {
-    public function create(array $data)
+    public static function create(array $data)
     {
         return User::create($data);
     }
 
-    public function update(User $user, array $data)
+    public static function update(User $user, array $data)
     {
         return $user->update($data);
     }
 
-    public function delete(User $user)
+    public static function delete(User $user)
     {
         return $user->delete();
     }
 
-    public function find(int $id)
+    public static function find(int $id)
     {
         return User::find($id);
     }
 
-    public function findByEmail(string $email)
+    public static function findByEmail(string $email)
     {
         return User::where('email', $email)->first();
     }

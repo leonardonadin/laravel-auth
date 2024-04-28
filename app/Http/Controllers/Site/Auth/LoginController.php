@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Site\LoginRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Services\UserService;
 
 class LoginController extends Controller
@@ -16,22 +16,26 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return view('site.login');
+        return view('site.auth.login');
     }
 
     /**
      * Handle an authentication attempt.
      *
-     * @param  \App\Http\Requests\Site\LoginRequest  $request
-     * @param  \App\Services\UserService  $userService
+     * @param  \App\Http\Requests\User\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function login(LoginRequest $request, UserService $userService)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
-        if ($userService->login($credentials)) {
-            return redirect()->route('site.home');
+        if (UserService::login($credentials)) {
+            return redirect()->route('site.home')->with('success', __('auth.success'));
+        }
+
+        if (!UserService::checkEmailIsVerified($credentials['email'])) {
+            return redirect()->route('site.auth.verify-email', ['email' => $credentials['email']])
+                ->with('message', __('auth.verify-email'));
         }
 
         return redirect()->back()->with('error', __('auth.failed'));
@@ -44,7 +48,8 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
+        UserService::logout();
+
         return redirect()->route('site.home');
     }
 }

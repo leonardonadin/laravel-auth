@@ -17,4 +17,8 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'verify_email_intro' => 'Please click the button below to verify your email address.',
+    'verify_token_show' => 'Or the following token can be used to verify your email address: :token',
+    'verify_email_link_plain' => 'If you’re having trouble clicking the "Verify Email" button, copy and paste the URL below into your web browser:',
+
 ];
