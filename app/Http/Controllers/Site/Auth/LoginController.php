@@ -37,7 +37,7 @@ class LoginController extends Controller
 
         if (!UserService::checkEmailIsVerified($credentials['email'])) {
             return redirect()->route('site.auth.verify-email', ['email' => $credentials['email']])
-                ->with('message', __('auth.verify-email'));
+                ->with('message', __('auth.verify_email'));
         }
 
         return redirect()->back()->with('error', __('auth.failed'));

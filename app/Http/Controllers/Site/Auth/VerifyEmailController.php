@@ -75,6 +75,6 @@ class VerifyEmailController extends Controller
             return redirect()->route('site.auth.login')->with('success', __('auth.email_verified'));
         }
 
-        return redirect()->route('site.auth.login')->with('error', __('auth.failed'));
+        return redirect()->route('site.auth.login')->with('error', __('auth.verify_email_failed'));
     }
 }

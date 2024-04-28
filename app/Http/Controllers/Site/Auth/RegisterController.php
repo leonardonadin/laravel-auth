@@ -31,10 +31,10 @@ class RegisterController extends Controller
 
         if (UserService::register($credentials)) {
             return redirect()->route('site.auth.verify-email', ['email' => $credentials['email']])
-                ->with('success', __('auth.user_registered'));
+                ->with('success', __('auth.registered'));
         }
 
-        return redirect()->back()->with('error', __('auth.failed'));
+        return redirect()->back()->with('error', __('auth.register_failed'));
     }
 
 }
