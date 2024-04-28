@@ -1,5 +1,6 @@
 <form action="{{ route('site.auth.register') }}" method="POST">
     @csrf
+    @honeypot
     <div class="mb-3">
         <label for="name" class="form-label">Nome</label>
         <input type="text" class="form-control @error('name') is-invalid @enderror"

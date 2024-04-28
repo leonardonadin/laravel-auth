@@ -8,11 +8,12 @@ use App\Http\Controllers\Site\Auth\VerifyEmailController;
 use App\Http\Controllers\Site\DashboardController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::as('site.')->prefix('site')->group(function () {
-    Route::as('auth.')->group(function () {
+    Route::as('auth.')->middleware(ProtectAgainstSpam::class)->group(function () {
         Route::controller(LoginController::class)->group(function () {
             Route::get('login', 'index')->name('login');
             Route::post('login', 'login');

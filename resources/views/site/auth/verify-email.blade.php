@@ -19,6 +19,7 @@
                 @endif
                 <form action="{{ route('site.auth.verify-email') }}" method="POST">
                     @csrf
+                    @honeypot
                     <div class="mb-3">
                         <label for="email" class="form-label">E-mail</label>
                         <div class="input-group mb-3">
