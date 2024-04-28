@@ -58,14 +58,14 @@ class VerifyEmailController extends Controller
     private function redirectIfEmailIsVerified($email)
     {
         if (UserService::checkEmailIsVerified($email)) {
-            return redirect()->route('site.auth.login')->with('success', __('auth.verify_email_sent'));
+            return redirect()->route('site.auth.verify-email')->with('success', __('auth.verify_email_sent'));
         }
     }
 
     private function redirectIfEmailCantBeVerified($email)
     {
         if (!UserVerifyService::emailCanBeVerified($email)) {
-            return redirect()->route('site.auth.login')->with('success', __('auth.verify_email_sent'));
+            return redirect()->route('site.auth.verify-email')->with('success', __('auth.verify_email_sent'));
         }
     }
 
@@ -75,6 +75,6 @@ class VerifyEmailController extends Controller
             return redirect()->route('site.auth.login')->with('success', __('auth.email_verified'));
         }
 
-        return redirect()->route('site.auth.login')->with('error', __('auth.verify_email_failed'));
+        return redirect()->route('site.auth.verify-email')->with('success', __('auth.verify_email_sent'));
     }
 }
