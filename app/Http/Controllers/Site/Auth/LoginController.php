@@ -35,12 +35,16 @@ class LoginController extends Controller
             return redirect()->intended(route('site.home'))->with('success', __('auth.success'));
         }
 
-        if (!UserService::checkEmailIsVerified($credentials['email'])) {
+        if (UserService::getUserByEmail($credentials['email']) !== null &&
+            !UserService::checkEmailIsVerified($credentials['email'])) {
             return redirect()->route('site.auth.verify-email', ['email' => $credentials['email']])
                 ->with('message', __('auth.verify_email'));
         }
 
-        return redirect()->route('site.auth.login')->with('error', __('auth.failed'));
+        return redirect()->route('site.auth.login')
+            ->withErrors([
+                'email' => __('auth.failed')
+            ]);
     }
 
     /**

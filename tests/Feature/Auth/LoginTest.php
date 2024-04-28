@@ -65,6 +65,7 @@ class LoginTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertRedirect('/site/login');
+        $response->assertSessionHasErrors('email');
 
         $this->assertGuest();
     }

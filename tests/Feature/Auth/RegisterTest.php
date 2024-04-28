@@ -46,4 +46,44 @@ class RegisterTest extends TestCase
             'phone' => '1234567890',
         ]);
     }
+
+    public function test_when_has_user_registered_with_email_then_cannot_register_with_same_email()
+    {
+        $user_registered = \App\Models\User::factory()->create();
+
+        $response = $this->post('/site/register', [
+            'name' => 'John Tester',
+            'email' => $user_registered->email,
+            'phone' => '1234567890',
+            'password' => 'Password!123',
+            'password_confirmation' => 'Password!123',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('email');
+
+        $this->assertDatabaseMissing('users', [
+            'name' => 'John Tester',
+            'email' => $user_registered->email,
+            'phone' => '1234567890',
+        ]);
+    }
+
+    public function test_when_register_with_blank_name_then_cannot_register()
+    {
+        $response = $this->post('/site/register', [
+            'name' => '',
+            'email' => 'email@email.com',
+            'phone' => '1234567890',
+            'password' => 'Password!123',
+            'password_confirmation' => 'Password!123',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('name');
+
+        $this->assertDatabaseMissing('users', [
+            'email' => 'email@email.com'
+        ]);
+    }
 }
