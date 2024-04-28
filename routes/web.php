@@ -1,14 +1,15 @@
 <?php
 
+use App\Http\Controllers\Site\Auth\ForgotPasswordController;
 use App\Http\Controllers\Site\Auth\LoginController;
 use App\Http\Controllers\Site\Auth\RegisterController;
+use App\Http\Controllers\Site\Auth\ResetPasswordController;
 use App\Http\Controllers\Site\Auth\VerifyEmailController;
-use App\Http\Controllers\Site\HomeController;
+use App\Http\Controllers\Site\DashboardController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Route::post('register', [RegisterController::class, 'register'])->name('site.auth.register');
 
 Route::as('site.')->prefix('site')->group(function () {
     Route::as('auth.')->group(function () {
@@ -27,9 +28,17 @@ Route::as('site.')->prefix('site')->group(function () {
             Route::post('verify-email-resend', 'resend')->name('verify-email.resend');
             Route::get('verify-email/{email}/{token}', 'verify')->name('verify-email.verify');
         });
+        Route::controller(ForgotPasswordController::class)->group(function () {
+            Route::get('forgot-password', 'create')->name('password.forgot');
+            Route::post('forgot-password', 'store');
+        });
+        Route::controller(ResetPasswordController::class)->group(function () {
+            Route::get('reset-password/{token}', 'create')->name('password.reset');
+            Route::post('reset-password/{token}', 'store');
+        });
     });
 
     Route::middleware(['auth', 'verified'])->group(function () {
-        Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::get('/', [DashboardController::class, 'index'])->name('home');
     });
 });

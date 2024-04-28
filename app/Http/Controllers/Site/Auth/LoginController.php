@@ -30,7 +30,9 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (UserService::login($credentials)) {
-            return redirect()->route('site.home')->with('success', __('auth.success'));
+            $request->session()->regenerate();
+
+            return redirect()->intended('site.home')->with('success', __('auth.success'));
         }
 
         if (!UserService::checkEmailIsVerified($credentials['email'])) {
@@ -50,6 +52,6 @@ class LoginController extends Controller
     {
         UserService::logout();
 
-        return redirect()->route('site.home');
+        return redirect()->route('home');
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class UserService
 {
@@ -34,9 +36,9 @@ class UserService
     /**
      * Log the user out of the application.
      */
-    public static function logout()
+    public static function logout(): void
     {
-        auth()->logout();
+        Auth::logout();
     }
 
     /**
@@ -64,20 +66,34 @@ class UserService
      * @param array $data
      * @return bool
      */
+    public static function forgotPassword(string $email): bool
+    {
+        if (!self::checkEmailIsVerified($email)) {
+            return false;
+        }
+
+        return UserRepository::forgotPassword($email);
+    }
+
+    /**
+     * Reset the user password.
+     *
+     * @param array $data
+     * @return bool
+     */
     public static function resetPassword(array $data): bool
     {
         if (!self::checkEmailIsVerified($data['email'])) {
             return false;
         }
 
-        UserRepository::findByEmail($data['email'])->sendEmailResetPasswordNotification();
-
-        return true;
+        return UserRepository::resetPassword($data);
     }
 
     public static function checkEmailIsVerified(string $email): bool
     {
-        return UserRepository::findByEmail($email)->hasVerifiedEmail();
+        $user = UserRepository::findByEmail($email);
+        return $user && $user->hasVerifiedEmail();
     }
 
     public static function verifyEmail(string $email): bool

@@ -13,6 +13,9 @@
                     </div>
                 @endif
                 <x-site.auth.login-form />
+                <div class="mt-4">
+                    <a href="{{ route('site.auth.password.forgot') }}">Esqueceu sua senha?</a>
+                </div>
             </div>
         </div>
     </div>
