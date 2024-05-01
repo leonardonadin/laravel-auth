@@ -1,6 +1,6 @@
-@extends('auth._layout')
+@extends('auth.layouts.base')
 
-@section('auth-content')
+@section('content')
     <div class="auth-title">
         Login
     </div>

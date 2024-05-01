@@ -32,8 +32,8 @@ class UserVerifyTest extends TestCase
     {
         $response = $this->get('/verify-email?email=' . $this->user->email);
 
-        $response->assertSee('Verificar e-mail');
-        $response->assertSee('Token');
+        $response->assertSee('Ativação de conta');
+        $response->assertSee('Código de ativação');
     }
 
     public function test_when_user_send_verify_email_request_with_valid_data_then_can_see_login_page()

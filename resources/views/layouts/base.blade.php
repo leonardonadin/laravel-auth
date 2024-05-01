@@ -12,7 +12,7 @@
 
 <body>
     <div id="app">
-        @yield('content')
+        @yield('base')
     </div>
 
     <script>

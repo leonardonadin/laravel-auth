@@ -1,7 +1,7 @@
 <form action="{{ route('auth.register') }}" method="POST">
     @csrf
     @honeypot
-    <div x-data="{ phoneNumber: @js(old('phone_number') ?? ''), phoneCode: @js(old('phone_code') ?? '55'), phoneFlag: 'br' }">
+    <div x-data="{ hidePassword: true, hideConfirmPass: true, phoneNumber: @js(old('phone_number') ?? ''), phoneCode: @js(old('phone_code') ?? '55'), phoneFlag: 'br' }">
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name"
@@ -47,16 +47,28 @@
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Senha</label>
-            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                name="password" required>
+            <div class="input-group-custom">
+                <input x-bind:type="hidePassword ? 'password' : 'text'" class="form-control @error('login') is-invalid @enderror"
+                    id="password" name="password" aria-describedby="button-addon1">
+                <button class="button-append" type="button" id="button-addon1"
+                    x-on:click="hidePassword = !hidePassword">
+                    <span class="fa" x-bind:class="hidePassword ? 'fa-eye-slash' : 'fa-eye'"></span>
+                </button>
+            </div>
             @error('password')
                 <div class="invalid-feedback d-block">{{ $message }}</div>
             @enderror
         </div>
         <div class="mb-3">
-            <label for="password_confirmation" class="form-label">Repetir Senha</label>
-            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
-                required>
+            <label for="passwordConfirmation" class="form-label">Repetir Senha</label>
+            <div class="input-group-custom">
+                <input x-bind:type="hideConfirmPass ? 'password' : 'text'" class="form-control @error('login') is-invalid @enderror"
+                    id="passwordConfirmation" name="password_confirmation" aria-describedby="button-addon1" required>
+                <button class="button-append" type="button" id="button-addon1"
+                    x-on:click="hideConfirmPass = !hideConfirmPass">
+                    <span class="fa" x-bind:class="hideConfirmPass ? 'fa-eye-slash' : 'fa-eye'"></span>
+                </button>
+            </div>
         </div>
         <div class="form-check">
             <input class="form-check-input @error('accepted_terms') is-invalid @enderror"
@@ -95,7 +107,9 @@
             </div>
         </div>
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary px-5">Cadastrar</button>
+            <button type="submit" class="btn btn-dark px-5">
+                Cadastrar
+            </button>
         </div>
     </div>
 </form>
