@@ -141,6 +141,10 @@ class AuthService
         $credentials[$column] = $login;
         unset($credentials['login']);
 
+        if ($column == 'phone') {
+            $credentials[$column] = preg_replace('/[^0-9]/', '', $credentials[$column]);
+        }
+
         return $credentials;
     }
 
