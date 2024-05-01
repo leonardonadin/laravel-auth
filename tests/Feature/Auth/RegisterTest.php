@@ -35,6 +35,7 @@ class RegisterTest extends TestCase
             'phone' => '1234567890',
             'password' => 'Password!123',
             'password_confirmation' => 'Password!123',
+            'accepted_terms' => 'on',
         ]);
 
         $response->assertStatus(302);
