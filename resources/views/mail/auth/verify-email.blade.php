@@ -14,7 +14,7 @@
         Token: {{ $token }}
     </p>
     <p>
-        <a href="{{ route('site.auth.verify-email', ['email' => $email, 'token' => $token]) }}">
+        <a href="{{ route('auth.verify-email', ['email' => $email, 'token' => $token]) }}">
             Clique aqui para verificar seu e-mail
         </a>
     </p>

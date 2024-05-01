@@ -26,4 +26,17 @@ class VerifyEmailStoreRequest extends FormRequest
             'token' => 'nullable|string',
         ];
     }
+
+    /**
+     * Get the validation attributes that apply to the request.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'email' => __('attributes.user.email'),
+            'token' => __('attributes.user.token'),
+        ];
+    }
 }

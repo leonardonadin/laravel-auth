@@ -1,0 +1,65 @@
+.input-group-custom {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    .form-control, input:not(.form-control) {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+
+        border: 1px solid $input-border-color;
+        border-radius: $input-border-radius;
+        &:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+    }
+    .button-append {
+        height: $input-height;
+        display: flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        background-color: $input-bg;
+        border-width: 1px 1px 1px 0;
+        border-style: solid;
+        border-color: $input-border-color;
+        border-radius: 0 $input-border-radius $input-border-radius 0;
+        cursor: pointer;
+        i {
+            color: #fff;
+        }
+    }
+    .button-prepend {
+        height: $input-height;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        background-color: $input-bg;
+        border-width: 1px 0 1px 1px;
+        border-style: solid;
+        border-color: $input-border-color;
+        border-radius: $input-border-radius 0 0 $input-border-radius;
+        cursor: pointer;
+        i {
+            color: #fff;
+        }
+    }
+    .select-prepend {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        background-color: $input-bg;
+        border-width: 1px 0 1px 1px;
+        border-style: solid;
+        border-color: $input-border-color;
+        border-radius: $input-border-radius 0 0 $input-border-radius;
+        cursor: pointer;
+        i {
+            color: #fff;
+        }
+    }
+}

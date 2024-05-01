@@ -23,14 +23,14 @@ class UserVerifyTest extends TestCase
 
     public function test_when_user_visit_verify_email_page_then_can_see_verify_email_page()
     {
-        $response = $this->get('/site/verify-email?email=' . $this->user->email);
+        $response = $this->get('/verify-email?email=' . $this->user->email);
 
         $response->assertStatus(200);
     }
 
     public function test_when_user_visit_verify_email_page_then_can_see_verify_email_form()
     {
-        $response = $this->get('/site/verify-email?email=' . $this->user->email);
+        $response = $this->get('/verify-email?email=' . $this->user->email);
 
         $response->assertSee('Verificar e-mail');
         $response->assertSee('Token');
@@ -42,13 +42,13 @@ class UserVerifyTest extends TestCase
             'email' => $this->user->email
         ]);
 
-        $response = $this->post('/site/verify-email', [
+        $response = $this->post('/verify-email', [
             'email' => $this->user->email,
             'token' => $userVerify->token,
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/site/login');
+        $response->assertRedirect('/login');
 
         $this->assertDatabaseHas('users', [
             'email' => $this->user->email,
@@ -62,7 +62,7 @@ class UserVerifyTest extends TestCase
             'email_verified_at' => null
         ]);
 
-        $response = $this->post('/site/verify-email', [
+        $response = $this->post('/verify-email', [
             'email' => $user->email,
             'token' => 'invalid-token',
         ]);

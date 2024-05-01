@@ -24,14 +24,14 @@ class ResetPasswordTest extends TestCase
 
     public function test_when_user_visit_reset_password_page_then_can_see_reset_password_page()
     {
-        $response = $this->get('/site/reset-password/' . $this->token);
+        $response = $this->get('/reset-password/' . $this->token);
 
         $response->assertStatus(200);
     }
 
     public function test_when_user_visit_reset_password_page_then_can_see_reset_password_form()
     {
-        $response = $this->get('/site/reset-password/' . $this->token);
+        $response = $this->get('/reset-password/' . $this->token);
 
         $response->assertSee('Redefinir senha');
         $response->assertSee('E-mail');
@@ -40,14 +40,14 @@ class ResetPasswordTest extends TestCase
 
     public function test_when_user_send_reset_password_request_with_valid_data_then_can_see_login_page()
     {
-        $response = $this->post('/site/reset-password/' . $this->token, [
+        $response = $this->post('/reset-password/' . $this->token, [
             'email' => $this->user->email,
             'password' => 'Password!123',
             'password_confirmation' => 'Password!123'
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/site/login');
+        $response->assertRedirect('/login');
 
         $this->assertDatabaseMissing('password_reset_tokens', [
             'email' => $this->user->email,

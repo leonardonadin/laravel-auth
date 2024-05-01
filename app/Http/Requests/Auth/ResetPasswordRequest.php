@@ -35,4 +35,17 @@ class ResetPasswordRequest extends FormRequest
             ]
         ];
     }
+
+    /**
+     * Get the validation attributes that apply to the request.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'email' => __('attributes.user.email'),
+            'password' => __('attributes.user.password')
+        ];
+    }
 }

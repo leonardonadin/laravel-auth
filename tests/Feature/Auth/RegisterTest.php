@@ -12,16 +12,16 @@ class RegisterTest extends TestCase
 
     public function test_when_visit_register_page_then_can_see_register_page()
     {
-        $response = $this->get('/site/register');
+        $response = $this->get('/register');
 
         $response->assertStatus(200);
     }
 
     public function test_when_visit_register_page_then_can_see_register_form()
     {
-        $response = $this->get('/site/register');
+        $response = $this->get('/register');
 
-        $response->assertSee('Registre');
+        $response->assertSee('Cadastr');
         $response->assertSee('Nome');
         $response->assertSee('E-mail');
         $response->assertSee('Senha');
@@ -29,7 +29,7 @@ class RegisterTest extends TestCase
 
     public function test_when_register_with_valid_data_then_can_see_verify_email_page()
     {
-        $response = $this->post('/site/register', [
+        $response = $this->post('/register', [
             'name' => 'John Doe',
             'email' => 'email@email.com',
             'phone' => '1234567890',
@@ -38,7 +38,7 @@ class RegisterTest extends TestCase
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/site/verify-email?email=email%40email.com');
+        $response->assertRedirect('/verify-email?email=email%40email.com');
 
         $this->assertDatabaseHas('users', [
             'name' => 'John Doe',
@@ -51,7 +51,7 @@ class RegisterTest extends TestCase
     {
         $user_registered = \App\Models\User::factory()->create();
 
-        $response = $this->post('/site/register', [
+        $response = $this->post('/register', [
             'name' => 'John Tester',
             'email' => $user_registered->email,
             'phone' => '1234567890',
@@ -71,7 +71,7 @@ class RegisterTest extends TestCase
 
     public function test_when_register_with_blank_name_then_cannot_register()
     {
-        $response = $this->post('/site/register', [
+        $response = $this->post('/register', [
             'name' => '',
             'email' => 'email@email.com',
             'phone' => '1234567890',

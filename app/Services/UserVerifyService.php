@@ -13,20 +13,17 @@ class UserVerifyService
         return UserVerifyRepository::getExpiredUserVerifies();
     }
 
-    public static function emailCanBeVerified(string $email): bool
+    public static function emailCantBeVerified(string $email): bool
     {
-        return UserVerifyRepository::findByEmail($email) !== null &&
-            UserService::getUserByEmail($email)->email_verified_at !== null;
-    }
-
-    public static function emailHasBeenVerified(string $email): bool
-    {
-        return UserService::getUserByEmail($email)->email_verified_at !== null &&
-            UserVerifyRepository::findByEmail($email) === null;
+        return UserVerifyRepository::findByEmail($email) !== null && !UserService::firstUserWhen('email', $email);
     }
 
     public static function startVerification(string $email): bool
     {
+        if (self::emailCantBeVerified($email)) {
+            return false;
+        }
+
         $token = self::generateToken();
         UserVerifyRepository::create([
             'email' => $email,
@@ -63,11 +60,9 @@ class UserVerifyService
             return false;
         }
 
-        UserService::verifyEmail($email);
-
         $userVerify->delete();
 
-        return true;
+        return UserService::setEmailVerified($email);
     }
 
     private static function generateToken(): string
@@ -77,7 +72,7 @@ class UserVerifyService
 
     private static function sendVerificationEmail(string $email, string $token): void
     {
-        $user = UserService::getUserByEmail($email);
+        $user = UserService::firstUserWhen('email', $email);
 
         if (!$user) {
             return;

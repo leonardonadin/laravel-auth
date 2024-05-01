@@ -36,13 +36,13 @@ class VerifyUserNotification extends Notification
     {
         return (new MailMessage)
                     ->line(__('auth.verify_email_intro'))
-                    ->action(__('auth.verify_email_action'), route('site.auth.verify-email.verify', [
+                    ->action(__('auth.verify_email_action'), route('auth.verify-email.verify', [
                         'email' => $this->email,
                         'token' => $this->token
                     ]))
                     ->line(__('auth.verify_token_show', ['token' => $this->token]))
                     ->line(__('auth.verify_email_link_plain', [
-                        'link' => route('site.auth.verify-email.verify', [
+                        'link' => route('auth.verify-email.verify', [
                             'email' => $this->email,
                             'token' => $this->token
                         ])

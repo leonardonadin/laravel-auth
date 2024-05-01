@@ -7,13 +7,13 @@
                 <h2>
                     Entrar
                 </h2>
-                <x-site.auth.login-form />
+                <x-auth.login-form />
             </div>
             <div class="col-12 col-md-5">
                 <h2>
                     Registre-se
                 </h2>
-                <x-site.auth.register-form />
+                <x-auth.register-form />
             </div>
         </div>
     </div>

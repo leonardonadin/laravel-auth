@@ -28,6 +28,8 @@ return [
     'verify_email_link_plain' => 'Se você estiver com problemas para clicar no botão "Verificar E-mail", copie e cole a URL abaixo em seu navegador da web:',
     'verify_email_failed' => 'Não podemos verificar seu endereço de e-mail!',
 
+    'email_verified' => 'Seu endereço de e-mail foi verificado!',
+
     'password_reset_link_sent' => 'Enviamos o link de redefinição de senha!',
     'password_reseted' => 'Sua senha foi redefinida!',
     'password_reset_failed' => 'Não podemos redefinir sua senha!',

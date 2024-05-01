@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
@@ -21,16 +20,16 @@ class LoginTest extends TestCase
 
     public function test_when_visit_login_page_then_can_see_login_page()
     {
-        $response = $this->get('/site/login');
+        $response = $this->get('/login');
 
         $response->assertStatus(200);
     }
 
     public function test_when_visit_login_page_then_can_see_login_form()
     {
-        $response = $this->get('/site/login');
+        $response = $this->get('/login');
 
-        $response->assertSee('Entrar');
+        $response->assertSee('Login');
         $response->assertSee('E-mail');
         $response->assertSee('Senha');
     }
@@ -41,13 +40,13 @@ class LoginTest extends TestCase
             'password' => Hash::make('Password!123')
         ]);
 
-        $response = $this->post('/site/login', [
-            'email' => $user->email,
+        $response = $this->post('/login', [
+            'login' => $user->email,
             'password' => 'Password!123',
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/site');
+        $response->assertRedirect('/app');
 
         $this->assertAuthenticated();
     }
@@ -58,13 +57,13 @@ class LoginTest extends TestCase
             'password' => Hash::make('Password!123')
         ]);
 
-        $response = $this->post('/site/login', [
-            'email' => $user->email,
+        $response = $this->post('/login', [
+            'login' => $user->email,
             'password' => 'password',
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/site/login');
+        $response->assertRedirect('/login');
         $response->assertSessionHasErrors('email');
 
         $this->assertGuest();
@@ -77,13 +76,13 @@ class LoginTest extends TestCase
             'email_verified_at' => null,
         ]);
 
-        $response = $this->post('/site/login', [
-            'email' => $user->email,
+        $response = $this->post('/login', [
+            'login' => $user->email,
             'password' => 'Password!123',
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/site/verify-email?email=' . urlencode($user->email));
+        $response->assertRedirect('/verify-email?email=' . urlencode($user->email));
 
         $this->assertGuest();
     }

@@ -29,36 +29,21 @@ class UserRepository
         return User::find($id);
     }
 
-    public static function findByEmail(string $email)
+    public static function findByColumn(string $column, string $value)
     {
-        return User::where('email', $email)->first();
+        return User::where($column, $value)->first();
     }
 
-    public static function forgotPassword(string $email): bool
+    public static function setEmailVerified(string $email): bool
     {
-        ResetPassword::createUrlUsing(function (User $user, string $token) {
-            return route('site.auth.password.reset', [
-                'email' => $user->email,
-                'token' => $token
-            ]);
-        });
+        $user = self::findByColumn('email', $email);
 
-        $result = Password::sendResetLink([
-            'email' => $email
-        ]);
+        if (!$user) {
+            return false;
+        }
 
-        return $result === Password::RESET_LINK_SENT;
-    }
+        $user->markEmailAsVerified();
 
-    public static function resetPassword(array $credentials): bool
-    {
-        $result = Password::reset($credentials, function ($user, $password) {
-            $user->password = $password;
-            $user->save();
-
-            event(new PasswordReset($user));
-        });
-
-        return $result === Password::PASSWORD_RESET;
+        return $user->hasVerifiedEmail();
     }
 }

@@ -29,6 +29,8 @@ return [
     'verify_email_link_plain' => 'If you’re having trouble clicking the "Verify Email" button, copy and paste the URL below into your web browser:',
     'verify_email_failed' => 'We can\'t verify your email address!',
 
+    'email_verified' => 'Your email address has been verified!',
+
     'password_reset_link_sent' => 'We have emailed your password reset link!',
     'password_reseted' => 'Your password has been reset!',
     'password_reset_failed' => 'We can\'t reset your password!',

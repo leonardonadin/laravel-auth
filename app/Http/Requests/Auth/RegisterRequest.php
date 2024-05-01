@@ -25,7 +25,10 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required',
+            'phone' => [
+                'required',
+                (new \App\Rules\UserPhoneUnique())
+            ],
             'password' => [
                 'required',
                 'confirmed',
@@ -34,7 +37,26 @@ class RegisterRequest extends FormRequest
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
-            ]
+            ],
+            'accepted_terms' => 'required|accepted',
+            'accepted_newsletter' => 'nullable'
+        ];
+    }
+
+    /**
+     * Get the validation attributes that apply to the request.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'name' => __('attributes.user.name'),
+            'email' => __('attributes.user.email'),
+            'phone' => __('attributes.user.phone'),
+            'password' => __('attributes.user.password'),
+            'accepted_terms' => __('attributes.user.accepted_terms'),
+            'accepted_newsletter' => __('attributes.user.accepted_newsletter')
         ];
     }
 }
